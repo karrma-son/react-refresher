@@ -1,6 +1,6 @@
 import classes from './Modal.module.css'
 
-function Modal({children, onClose}) {
+function Modal({children, onClose, onOpen}) {
     return(
     <>
         <div className={classes.backdrop} onClick={onClose} />

@@ -4,38 +4,33 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import classes from "./PostList.module.css"
 
-function PostList() {
-    const [enteredBody, setEnteredBody] = useState('');
-    const [enteredAuthor, setEnteredAuthor] = useState('');
-    const [showModal, setShowModal] = useState(true);
+function PostList({ isPosting, onStopPosting }) {
+    const [posts, setPosts] = useState([])
 
-    function changeBodyHandler(e) {
-        setEnteredBody(e.target.value);
+    function addPostHandler(postData) {
+        setPosts((existingPost) => [postData, ...existingPost]);
     }
-
-    function changeAuthorHandler(e) {
-        setEnteredAuthor(e.target.value);
-    }
-
-    function hideModalHandler(e) {
-        setShowModal(false);
-    }
-
-
     return (
         <>
-            {showModal ? (
-                <Modal onClose={hideModalHandler}>
+            {isPosting && (
+                <Modal onClose={onStopPosting} >
                     <NewPost
-                        onBodyChange={changeBodyHandler}
-                        onAuthorChange={changeAuthorHandler}
+                        onAddPost={addPostHandler}
+                        onCancel={onStopPosting}
                     />
                 </Modal>
-            ) : null}
-            <ul className={classes.posts}>
-                <Post author={enteredAuthor} body={enteredBody} />
-                <Post author=" Tony" body="Gabagool" />
-            </ul>
+            )}
+            {posts.length > 0 && (
+                <ul className={classes.posts}>
+                    {posts.map((post) => <Post key={post.body} author={post.author} body={post.body} />)}
+                </ul>
+            )}
+            {posts.length === 0 && (
+                <div style={{textAlign:"center", color:'plum'}} >
+                    <h2>No posts yet</h2>
+                    <p>Start adding some</p>
+                </div>
+            )}
         </>
     )
 }
