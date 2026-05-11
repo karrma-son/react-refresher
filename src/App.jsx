@@ -5,7 +5,7 @@ import PostList from "./components/PostList";
 import Modal from "./components/Modal";
 function App() {
 
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   
     function hideModalHandler(e) {
